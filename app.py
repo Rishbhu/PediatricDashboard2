@@ -1,6 +1,7 @@
 # app.py
 import streamlit as st
 import math
+from datetime import date
 
 st.set_page_config(page_title="Patient Overview", layout="wide")
 
@@ -93,24 +94,25 @@ html, body, .stApp, [data-testid="stAppViewContainer"], .main {
 .card{background:var(--card); border:1px solid var(--border); border-radius:12px; padding:12px 14px;}
 .card + .card{margin-top:10px;}
 
-/* Flow (complications) */
-.flow{display:flex; gap:18px; align-items:flex-start; flex-wrap:wrap; margin-top:8px;}
+/* Flow (complications) - revamped grid with steps 1..6 */
+.flowgrid{display:grid; grid-template-columns: 1fr 40px 1fr 40px 1fr; row-gap:18px; column-gap:14px; align-items:center; margin-top:8px;}
 .stage{
   background:#3A0E0E;border:1px solid #7A2E2E;border-radius:10px;
-  padding:10px 12px;min-width:160px;text-align:center;font-weight:900;
+  padding:12px 14px;min-width:160px;text-align:center;font-weight:900;
   color:#FEE2E2;
   transition:all .15s ease-in-out;
 }
 .stage.active{ box-shadow:0 0 0 3px var(--brand-coral) inset; transform:translateY(-2px); }
-.arrow{width:44px;height:10px;border-bottom:4px solid #7A2E2E;position:relative;margin:18px 2px 0;}
-.arrow:after{content:"";position:absolute;right:-1px;bottom:-7px;border-left:8px solid #7A2E2E;border-top:8px solid transparent;border-bottom:8px solid transparent;}
-.day{
+.connector{height:4px;background:#7A2E2E;position:relative;border-radius:4px;}
+.connector:after{content:"";position:absolute;right:-6px;top:-4px;border-left:10px solid #7A2E2E;border-top:8px solid transparent;border-bottom:8px solid transparent;}
+.stepbadge{
   width:28px;height:28px;border-radius:50%;border:2px dashed #CBD5E1;display:flex;align-items:center;justify-content:center;
-  margin:6px auto 0;color:#E2E8F0;font-weight:900;background:#0B1426;
+  color:#E2E8F0;font-weight:900;background:#0B1426;margin:0 auto 6px;
 }
 
 /* Chart wrappers */
-.donutwrap, .gaugewrap{display:flex;align-items:center;justify-content:center;}
+.donutwrap{display:flex;align-items:center;justify-content:flex-end; width:100%;}  /* push right */
+.gaugewrap{display:flex;align-items:center;justify-content:center;}
 
 /* Shunt : Weight pill */
 .pillbar{
@@ -171,9 +173,9 @@ def bar_svg(counts)->str:
 
 def donut_svg(segments)->str:
     # segments: list of tuples (label, pct, color)
-    cx, cy, R, stroke = 140, 140, 84, 36
+    cx, cy, R, stroke = 150, 140, 84, 36  # cx moved right to push chart right within 320 width
     start = -90
-    svg = [f'<svg width="320" height="280" viewBox="0 0 320 280"><g fill="none" stroke-linecap="butt">']
+    svg = [f'<svg width="340" height="280" viewBox="0 0 340 280"><g fill="none" stroke-linecap="butt">']
     for label, pct, color in segments:
         sweep = 360*pct/100.0; end = start + sweep
         path = arc_path(cx, cy, R, start, end)
@@ -188,34 +190,44 @@ def donut_svg(segments)->str:
 
 # ======================== CONTROLS (Interactive) ========================
 with st.expander("⚙️  Controls", expanded=False):
-    c1, c2, c3 = st.columns([0.33, 0.37, 0.30])
+    tabs = st.tabs(["Visual Controls", "Patient Data"])
+    with tabs[0]:
+        c1, c2, c3 = st.columns([0.33, 0.37, 0.30])
+        with c1:
+            risk_pct = st.slider("Risk %", 0, 100, 70, 1, help="Controls the semi-circular risk gauge.")
+        with c2:
+            st.caption("Genetic Abnormalities (counts)")
+            d = st.slider("Downs", 0, 30, 12, 1)
+            t = st.slider("Turner", 0, 30, 10, 1)
+            g = st.slider("DiGeorge", 0, 30, 16, 1)
+            w = st.slider("Williams", 0, 30, 13, 1)
+            counts = [d, t, g, w]
+        with c3:
+            st.caption("Shunt Size Distribution (raw numbers; auto-normalized)")
+            s50 = st.number_input("5.0 mm", min_value=0.0, value=10.0, step=1.0)
+            s40 = st.number_input("4.0 mm", min_value=0.0, value=18.0, step=1.0)
+            s35 = st.number_input("3.5 mm", min_value=0.0, value=25.0, step=1.0)
+            s30 = st.number_input("3.0 mm", min_value=0.0, value=47.0, step=1.0)
+            raw_total = max(1.0, s50+s40+s35+s30)
+            shunt_pcts = [round(100*s50/raw_total,1),
+                          round(100*s40/raw_total,1),
+                          round(100*s35/raw_total,1),
+                          round(100*s30/raw_total,1)]
+            st.caption(f"Normalized to 100% → {sum(shunt_pcts):.1f}%")
+        st.caption("Highlight a complication (emphasizes stage)")
+        hl = st.selectbox("", ["(none)","Cardiac Arrest","Reoperation Bleed","Sepsis","Chylothorax Intervention","Stroke","Sudden Hypoxemia"], index=0)
 
-    with c1:
-        risk_pct = st.slider("Risk %", 0, 100, 70, 1, help="Controls the semi-circular risk gauge.")
-
-    with c2:
-        st.caption("Genetic Abnormalities (counts)")
-        d = st.slider("Downs", 0, 30, 12, 1)
-        t = st.slider("Turner", 0, 30, 10, 1)
-        g = st.slider("DiGeorge", 0, 30, 16, 1)
-        w = st.slider("Williams", 0, 30, 13, 1)
-        counts = [d, t, g, w]
-
-    with c3:
-        st.caption("Shunt Size Distribution (raw numbers; auto-normalized)")
-        s50 = st.number_input("5.0 mm", min_value=0.0, value=10.0, step=1.0)
-        s40 = st.number_input("4.0 mm", min_value=0.0, value=18.0, step=1.0)
-        s35 = st.number_input("3.5 mm", min_value=0.0, value=25.0, step=1.0)
-        s30 = st.number_input("3.0 mm", min_value=0.0, value=47.0, step=1.0)
-        raw_total = max(1.0, s50+s40+s35+s30)
-        shunt_pcts = [round(100*s50/raw_total,1),
-                      round(100*s40/raw_total,1),
-                      round(100*s35/raw_total,1),
-                      round(100*s30/raw_total,1)]
-        st.caption(f"Normalized to 100% → {sum(shunt_pcts):.1f}%")
-
-    st.caption("Highlight a complication (emphasizes stage)")
-    hl = st.selectbox("", ["(none)","Cardiac Arrest","Reoperation Bleed","Sepsis","Chylothorax Intervention","Stroke","Sudden Hypoxemia"], index=0)
+    with tabs[1]:
+        left, right = st.columns(2)
+        with left:
+            date_of_surg = st.date_input("Date of Surgery", value=date(2025,10,18))
+            age_months  = st.number_input("Age at Surgery (months)", min_value=0, max_value=60, value=0)
+            age_days    = st.number_input("Age at Surgery (days)", min_value=0, max_value=31, value=0)
+            weight_kg   = st.number_input("Weight at Surgery (kg)", min_value=0.0, max_value=200.0, value=5.0, step=0.1)
+        with right:
+            bmi_cat     = st.selectbox("Body Mass Index", ["Underweight","Normal","Overweight","Obese"], index=0)
+            cpb_time    = st.number_input("CPB Time (minutes)", min_value=0, max_value=1000, value=0)
+            tapvr       = st.selectbox("Concurrent TAPVR Repair", ["No","Yes"], index=0)
 
 # ======================== LAYOUT ========================
 # widen nav a bit so "DASHBOARDS" stays on one line
@@ -240,7 +252,7 @@ with main:
     </div>
     """, unsafe_allow_html=True)
 
-    # Row 1: left text, middle bars, right risk gauge
+    # Row 1: left text (dynamic from inputs), middle bars, right risk gauge
     c1, c2, c3 = st.columns([0.50, 0.30, 0.20], gap="large")
 
     with c1:
@@ -248,15 +260,16 @@ with main:
         st.markdown('<div class="muted">short summary of diagnosis</div>', unsafe_allow_html=True)
 
         st.markdown('<div class="h2" style="margin-top:14px;">SURGICAL&nbsp;PROCEDURE  ⓘ</div>', unsafe_allow_html=True)
-        st.markdown("""
+        # Live-binding to the inputs above
+        st.markdown(f"""
         <div class="muted">Systemic-to-Pulmonary Shunt Placement</div>
         <div style="margin-top:8px;">
-          <b>DATE OF SURG:</b> 10/18/2025<br>
-          <b>AGE AT SURGERY:</b> # months # days<br>
-          <b>WEIGHT AT SURGERY:</b> # kg<br>
-          <b>BODY MASS INDEX:</b> Underweight/ Overweight<br>
-          <b>CPB TIME:</b> # minutes<br>
-          <b>CONCURRENT TAPVR REPAIR</b>
+          <b>DATE OF SURG:</b> {date_of_surg.strftime("%m/%d/%Y")}<br>
+          <b>AGE AT SURGERY:</b> {age_months} months {age_days} days<br>
+          <b>WEIGHT AT SURGERY:</b> {weight_kg:.1f} kg<br>
+          <b>BODY MASS INDEX:</b> {bmi_cat}<br>
+          <b>CPB TIME:</b> {cpb_time} minutes<br>
+          <b>CONCURRENT TAPVR REPAIR:</b> {tapvr}
         </div>
         """, unsafe_allow_html=True)
 
@@ -270,34 +283,57 @@ with main:
 
     st.markdown("<hr style='border:none;height:12px;background:transparent;'>", unsafe_allow_html=True)
 
-    # Row 2: flow + donut + shunt:weight pill
+    # Row 2: flow (two rows, steps 1..6) + donut aligned right + pill
     c4, c5 = st.columns([0.58, 0.42], gap="large")
 
     with c4:
-        st.markdown('<div class="h3">POST&nbsp;OPERATIVE&nbsp;COMPLICATIONS (PATIENTS&nbsp;EXPERIENCED)</div>', unsafe_allow_html=True)
+        st.markdown('<div class="h3">POST&nbsp;OPERATIVE&nbsp;COMPLICATIONS (STEPS&nbsp;1–6)</div>', unsafe_allow_html=True)
 
         def klass(name):
             return "stage active" if hl == name else "stage"
 
+        # Row 1: Steps 1–3
         st.markdown(f"""
-        <div class="flow">
-          <div class="{klass('Cardiac Arrest')}">Cardiac<br>Arrest</div>
-          <div class="arrow"></div><div class="day">1</div>
-          <div class="{klass('Reoperation Bleed')}">Reoperation<br>Bleed</div>
-          <div class="arrow"></div><div class="day">3</div>
-          <div class="{klass('Sepsis')}">Sepsis</div>
-          <div class="arrow"></div><div class="day">5</div>
-          <div class="{klass('Chylothorax Intervention')}">Chylothorax<br>Intervention</div>
-          <div class="arrow"></div><div class="day">4</div>
-          <div class="{klass('Stroke')}">Stroke</div>
-          <div class="arrow"></div><div class="day">6</div>
-          <div class="{klass('Sudden Hypoxemia')}">Sudden<br>Hypoxemia</div>
+        <div class="flowgrid">
+          <div>
+            <div class="stepbadge">1</div>
+            <div class="{klass('Cardiac Arrest')}">Cardiac<br>Arrest</div>
+          </div>
+          <div class="connector"></div>
+          <div>
+            <div class="stepbadge">2</div>
+            <div class="{klass('Reoperation Bleed')}">Reoperation<br>Bleed</div>
+          </div>
+          <div class="connector"></div>
+          <div>
+            <div class="stepbadge">3</div>
+            <div class="{klass('Sepsis')}">Sepsis</div>
+          </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # Row 2: Steps 4–6
+        st.markdown(f"""
+        <div class="flowgrid" style="margin-top:8px;">
+          <div>
+            <div class="stepbadge">4</div>
+            <div class="{klass('Chylothorax Intervention')}">Chylothorax<br>Intervention</div>
+          </div>
+          <div class="connector"></div>
+          <div>
+            <div class="stepbadge">5</div>
+            <div class="{klass('Stroke')}">Stroke</div>
+          </div>
+          <div class="connector"></div>
+          <div>
+            <div class="stepbadge">6</div>
+            <div class="{klass('Sudden Hypoxemia')}">Sudden<br>Hypoxemia</div>
+          </div>
         </div>
         """, unsafe_allow_html=True)
 
     with c5:
-        # Center the heading so it's directly above the donut
-        st.markdown('<div class="h2" style="text-align:center;">SHUNT&nbsp;SIZE</div>', unsafe_allow_html=True)
+        st.markdown('<div class="h2" style="text-align:right;">SHUNT&nbsp;SIZE</div>', unsafe_allow_html=True)
         segments = [
             ("5.0 mm", shunt_pcts[0], "var(--donut1)"),
             ("4.0 mm", shunt_pcts[1], "var(--donut2)"),
