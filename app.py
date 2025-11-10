@@ -10,7 +10,9 @@ st.markdown("""
 <style>
 header[data-testid="stHeader"]{display:none !important;}
 #MainMenu, footer{visibility:hidden !important;}
-.block-container{padding-top:8px !important; max-width:1400px;}
+.block-container{padding-top:4px !important; padding-bottom:4px !important; max-width:1400px;}
+[data-testid="stVerticalBlock"] > [style*="width"]{padding-top:2px !important; padding-bottom:2px !important;}
+[data-testid="column"]{padding:0 6px !important;}
 
 /* -------- Dark blue neutral theme -------- */
 :root{
@@ -40,42 +42,59 @@ html, body, .stApp, [data-testid="stAppViewContainer"], .main {
 *{ color: var(--ink); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji"; }
 .muted{ color: var(--muted) !important; }
 
-/* Left card */
-.side{ background: var(--side); border:1px solid var(--band-border); border-radius:12px; padding:16px 18px; }
-.side h3{ margin:0 0 8px; letter-spacing:.14em; color: var(--heading); font-weight:1000; font-size:22px; line-height:1.1; white-space:nowrap; }
-.side p{ margin:2px 0 0; font-weight:800; }
+/* Left card - more compact */
+.side{ background: var(--side); border:1px solid var(--band-border); border-radius:10px; padding:10px 14px; }
+.side h3{ margin:0 0 6px; letter-spacing:.14em; color: var(--heading); font-weight:1000; font-size:18px; line-height:1.1; white-space:nowrap; }
+.side p{ margin:2px 0 0; font-weight:800; font-size:13px; }
 
-/* Top band */
-.topband{ background: var(--band); border:1px solid var(--band-border); border-radius:12px; padding:16px 20px; margin-bottom:16px; }
-.kvgrid{display:grid; grid-template-columns:repeat(7, 1fr); gap:18px; align-items:center;}
-.kv .label{ font-size:14px; font-weight:1000; letter-spacing:.12em; color: var(--heading); white-space:nowrap; }
-.kv .val{ margin-top:4px; font-size:18px; font-weight:900; }
-.baby{ width:46px;height:46px;border-radius:999px;border:2px solid var(--band-border); display:flex;align-items:center;justify-content:center;background:#0b1a30;font-size:22px; }
+/* Top band - more compact */
+.topband{ background: var(--band); border:1px solid var(--band-border); border-radius:10px; padding:10px 16px; margin-bottom:10px; position:relative; }
+.kvgrid{display:grid; grid-template-columns:repeat(7, 1fr); gap:12px; align-items:center;}
+.kv .label{ font-size:12px; font-weight:1000; letter-spacing:.12em; color: var(--heading); white-space:nowrap; }
+.kv .val{ margin-top:2px; font-size:15px; font-weight:900; }
+.baby{ width:38px;height:38px;border-radius:999px;border:2px solid var(--band-border); display:flex;align-items:center;justify-content:center;background:#0b1a30;font-size:18px; }
 
-/* Headings (no info icons, single line) */
-.h2{font-weight:1000; font-size:22px; letter-spacing:.08em; color: var(--heading); white-space:nowrap;}
-.h3{font-weight:900;  font-size:18px; letter-spacing:.06em; color: var(--heading); white-space:nowrap;}
+/* Premature icon in top right */
+.premature-icon{ position:absolute; top:10px; right:16px; width:42px;height:42px;border-radius:999px;border:2px solid #F97362; display:flex;align-items:center;justify-content:center;background:#1a0f0f;font-size:20px; box-shadow:0 2px 8px rgba(249,115,98,0.3); }
 
-/* Cards */
-.card{background:var(--card); border:1px solid var(--border); border-radius:12px; padding:12px 14px;}
-.card + .card{margin-top:10px;}
+/* Risk section at top */
+.risk-header{ background:linear-gradient(135deg, #1a0f0f 0%, #2a1515 100%); border:2px solid #F97362; border-radius:12px; padding:12px 16px; margin-bottom:10px; box-shadow:0 4px 12px rgba(249,115,98,0.2); }
+.risk-title{ font-weight:1000; font-size:20px; letter-spacing:.1em; color: #F97362; text-align:center; margin-bottom:8px; }
+.risk-display{ display:flex; align-items:center; justify-content:space-around; gap:20px; }
+.risk-percentage{ font-size:48px; font-weight:1000; color: #F97362; text-align:center; line-height:1; }
+.risk-label{ font-size:14px; font-weight:800; color: var(--muted); text-align:center; margin-top:4px; letter-spacing:.1em; }
 
-/* Flow (steps 1..6) */
-.flowgrid{display:grid; grid-template-columns: 1fr 40px 1fr 40px 1fr; row-gap:18px; column-gap:14px; align-items:center; margin-top:8px;}
-.stage{ background:#3A0E0E;border:1px solid #7A2E2E;border-radius:10px; padding:12px 14px;min-width:160px;text-align:center;font-weight:900; color:#FEE2E2; transition:all .15s ease-in-out; }
+/* Headings - more compact */
+.h2{font-weight:1000; font-size:19px; letter-spacing:.08em; color: var(--heading); white-space:nowrap; margin:6px 0 4px;}
+.h3{font-weight:900;  font-size:16px; letter-spacing:.06em; color: var(--heading); white-space:nowrap; margin:4px 0 2px;}
+
+/* Cards - more compact */
+.card{background:var(--card); border:1px solid var(--border); border-radius:10px; padding:8px 12px;}
+.card + .card{margin-top:6px;}
+
+/* Flow (steps 1..6) - more compact */
+.flowgrid{display:grid; grid-template-columns: 1fr 32px 1fr 32px 1fr; row-gap:12px; column-gap:10px; align-items:center; margin-top:6px;}
+.stage{ background:#3A0E0E;border:1px solid #7A2E2E;border-radius:8px; padding:8px 10px;min-width:140px;text-align:center;font-weight:900; color:#FEE2E2; font-size:13px; transition:all .15s ease-in-out; }
 .stage.active{ box-shadow:0 0 0 3px var(--brand-coral) inset; transform:translateY(-2px); }
-.connector{height:4px;background:#7A2E2E;position:relative;border-radius:4px;}
-.connector:after{content:"";position:absolute;right:-6px;top:-4px;border-left:10px solid #7A2E2E;border-top:8px solid transparent;border-bottom:8px solid transparent;}
-.stepbadge{ width:28px;height:28px;border-radius:50%;border:2px dashed #CBD5E1;display:flex;align-items:center;justify-content:center; color:#E2E8F0;font-weight:900;background:#0B1426;margin:0 auto 6px; }
+.connector{height:3px;background:#7A2E2E;position:relative;border-radius:3px;}
+.connector:after{content:"";position:absolute;right:-5px;top:-3px;border-left:8px solid #7A2E2E;border-top:6px solid transparent;border-bottom:6px solid transparent;}
+.stepbadge{ width:24px;height:24px;border-radius:50%;border:2px dashed #CBD5E1;display:flex;align-items:center;justify-content:center; color:#E2E8F0;font-weight:900;background:#0B1426;margin:0 auto 4px; font-size:11px; }
 
 /* Charts layout */
 .donutwrap{display:flex;align-items:center;justify-content:flex-end; width:100%;}
 .gaugewrap{display:flex;align-items:center;justify-content:center;}
 
-/* Pill */
-.pillbar{ height:44px;border-radius:999px;background:linear-gradient(90deg, #ef4444 0%, #fb923c 40%, #22c55e 100%); display:flex;align-items:center;justify-content:center;border:1px solid #1f2e4a; }
-.pillbar .chip{background:#FFE680;color:#111;border:2px solid #d8b84f;border-radius:22px;padding:6px 12px;font-weight:1000;}
-.pillcaption{font-weight:1000;text-align:center;margin-top:10px;color:#E2E8F0;}
+/* Compact gauge for top */
+.risk-gauge-wrap{display:flex;align-items:center;justify-content:center; padding:4px 0;}
+
+/* Pill - more compact */
+.pillbar{ height:36px;border-radius:999px;background:linear-gradient(90deg, #ef4444 0%, #fb923c 40%, #22c55e 100%); display:flex;align-items:center;justify-content:center;border:1px solid #1f2e4a; }
+.pillbar .chip{background:#FFE680;color:#111;border:2px solid #d8b84f;border-radius:18px;padding:4px 10px;font-weight:1000; font-size:12px;}
+.pillcaption{font-weight:1000;text-align:center;margin-top:6px;color:#E2E8F0; font-size:13px;}
+
+/* Compact form elements */
+[data-testid="stSelectbox"], [data-testid="stDateInput"], [data-testid="stNumberInput"], [data-testid="stTextArea"], [data-testid="stToggle"]{margin-bottom:6px !important;}
+label{margin-bottom:3px !important;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -88,23 +107,41 @@ def arc_path(cx, cy, r, start_deg, end_deg):
     large = 1 if end - start > _m.pi else 0
     return f"M{x1:.3f},{y1:.3f} A{r:.3f},{r:.3f} 0 {large} 1 {x2:.3f},{y2:.3f}"
 
-def semi_gauge_svg(pct:int=70)->str:
+def semi_gauge_svg(pct:int=70, compact:bool=False)->str:
     pct = max(0, min(100, pct))
-    cx, cy, R, stroke = 140, 130, 100, 26
-    filled = 180 * pct/100.0
-    end_angle = 180 - filled
-    base = arc_path(cx, cy, R, 180, 0)
-    fill = arc_path(cx, cy, R, 180, end_angle)
-    return f"""
-    <svg width="340" height="240" viewBox="0 0 340 240">
-      <g fill="none" stroke-linecap="round">
-        <path d="{base}" stroke="#E9B98A" stroke-width="{stroke}" />
-        <path d="{fill}" stroke="{ '#F97362' }" stroke-width="{stroke}" />
-      </g>
-      <circle cx="{cx}" cy="{cy}" r="{R-19}" fill="#0B1426"/>
-      <text x="{cx}" y="{cy-3}" text-anchor="middle" font-size="62" font-weight="1000" fill="#F8FAFC">{pct}%</text>
-    </svg>
-    """
+    if compact:
+        # Smaller gauge for top display
+        cx, cy, R, stroke = 100, 90, 70, 18
+        filled = 180 * pct/100.0
+        end_angle = 180 - filled
+        base = arc_path(cx, cy, R, 180, 0)
+        fill = arc_path(cx, cy, R, 180, end_angle)
+        return f"""
+        <svg width="240" height="160" viewBox="0 0 240 160">
+          <g fill="none" stroke-linecap="round">
+            <path d="{base}" stroke="#E9B98A" stroke-width="{stroke}" />
+            <path d="{fill}" stroke="#F97362" stroke-width="{stroke}" />
+          </g>
+          <circle cx="{cx}" cy="{cy}" r="{R-14}" fill="#0B1426"/>
+          <text x="{cx}" y="{cy-2}" text-anchor="middle" font-size="42" font-weight="1000" fill="#F8FAFC">{pct}%</text>
+        </svg>
+        """
+    else:
+        cx, cy, R, stroke = 140, 130, 100, 26
+        filled = 180 * pct/100.0
+        end_angle = 180 - filled
+        base = arc_path(cx, cy, R, 180, 0)
+        fill = arc_path(cx, cy, R, 180, end_angle)
+        return f"""
+        <svg width="340" height="240" viewBox="0 0 340 240">
+          <g fill="none" stroke-linecap="round">
+            <path d="{base}" stroke="#E9B98A" stroke-width="{stroke}" />
+            <path d="{fill}" stroke="#F97362" stroke-width="{stroke}" />
+          </g>
+          <circle cx="{cx}" cy="{cy}" r="{R-19}" fill="#0B1426"/>
+          <text x="{cx}" y="{cy-3}" text-anchor="middle" font-size="62" font-weight="1000" fill="#F8FAFC">{pct}%</text>
+        </svg>
+        """
 
 def bar_svg(counts)->str:
     W, H = 320, 190
@@ -223,10 +260,31 @@ with nav:
     st.markdown('<div class="side"><h3>DASHBOARDS</h3><p>Patient Overview</p></div>', unsafe_allow_html=True)
 
 with main:
-    # --- Top band (uses session values) ---
+    # ================= RISK SECTION AT TOP - MAIN ATTRACTION =================
+    st.markdown(f"""
+    <div class="risk-header">
+      <div class="risk-title">⚠️ PATIENT RISK ASSESSMENT ⚠️</div>
+      <div class="risk-display">
+        <div>
+          <div class="risk-percentage">{risk_pct}%</div>
+          <div class="risk-label">RISK LEVEL</div>
+        </div>
+        <div class="risk-gauge-wrap">
+          {semi_gauge_svg(risk_pct, compact=True)}
+        </div>
+        <div>
+          <div class="risk-percentage" style="font-size:36px;">{risk_pct}</div>
+          <div class="risk-label">/ 100</div>
+        </div>
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- Top band (uses session values) with premature icon ---
     gest_label = f"{int(ss.gest_weeks)} weeks {int(ss.gest_days)} days"
     st.markdown(f"""
     <div class="topband">
+      <div class="premature-icon">👶</div>
       <div class="kvgrid">
         <div class="kv"><div class="label">PATIENT&nbsp;ID</div><div class="val muted">{ss.patient_id}</div></div>
         <div class="kv"><div class="label">DOB</div><div class="val muted">{ss.dob.strftime("%m/%d/%Y")}</div></div>
@@ -239,17 +297,17 @@ with main:
     </div>
     """, unsafe_allow_html=True)
 
-    # Row 1: left text (dynamic from inputs), middle bars, right risk gauge
-    c1, c2, c3 = st.columns([0.50, 0.30, 0.20], gap="large")
+    # Row 1: left text (dynamic from inputs), middle bars, right removed (risk moved to top)
+    c1, c2 = st.columns([0.60, 0.40], gap="large")
 
     with c1:
         st.markdown('<div class="h2">FUNDAMENTAL&nbsp;DIAGNOSIS</div>', unsafe_allow_html=True)
         st.markdown('<div class="muted">short summary of diagnosis</div>', unsafe_allow_html=True)
 
-        st.markdown('<div class="h2" style="margin-top:14px;">SURGICAL&nbsp;PROCEDURE</div>', unsafe_allow_html=True)
+        st.markdown('<div class="h2" style="margin-top:10px;">SURGICAL&nbsp;PROCEDURE</div>', unsafe_allow_html=True)
         st.markdown(f"""
         <div class="muted">Systemic-to-Pulmonary Shunt Placement</div>
-        <div style="margin-top:8px;">
+        <div style="margin-top:6px; font-size:13px;">
           <b>DATE OF SURG:</b> {date_of_surg.strftime("%m/%d/%Y")}<br>
           <b>AGE AT SURGERY:</b> {age_months} months {age_days} days<br>
           <b>WEIGHT AT SURGERY:</b> {weight_kg:.1f} kg<br>
@@ -263,11 +321,7 @@ with main:
         st.markdown('<div class="h2">GENETIC&nbsp;ABNORMALITIES</div>', unsafe_allow_html=True)
         st.markdown(bar_svg([d,t,g,w]), unsafe_allow_html=True)
 
-    with c3:
-        st.markdown('<div class="h2">RISK</div>', unsafe_allow_html=True)
-        st.markdown(f'<div class="gaugewrap">{semi_gauge_svg(risk_pct)}</div>', unsafe_allow_html=True)
-
-    st.markdown("<hr style='border:none;height:12px;background:transparent;'>", unsafe_allow_html=True)
+    st.markdown("<hr style='border:none;height:8px;background:transparent;'>", unsafe_allow_html=True)
 
     # Row 2: flow (two rows, steps 1..6) + donut aligned right + pill
     c4, c5 = st.columns([0.58, 0.42], gap="large")
@@ -292,7 +346,7 @@ with main:
         """, unsafe_allow_html=True)
         # Row 2: Steps 4–6
         st.markdown(f"""
-        <div class="flowgrid" style="margin-top:8px;">
+        <div class="flowgrid" style="margin-top:6px;">
           <div><div class="stepbadge">4</div><div class="stage">Chylothorax<br>Intervention</div></div>
           <div class="connector"></div>
           <div><div class="stepbadge">5</div><div class="stage">Stroke</div></div>
@@ -309,6 +363,6 @@ with main:
                     ("3.0 mm", shunt_pcts[3], "var(--donut4)")]
         st.markdown(f'<div class="donutwrap">{donut_svg(segments)}</div>', unsafe_allow_html=True)
 
-        st.markdown('<div class="h2" style="margin-top:10px; text-align:center;">SHUNT:WEIGHT</div>', unsafe_allow_html=True)
+        st.markdown('<div class="h2" style="margin-top:8px; text-align:center;">SHUNT:WEIGHT</div>', unsafe_allow_html=True)
         st.markdown('<div class="pillbar"><span class="chip">PATIENT XYZ</span></div>', unsafe_allow_html=True)
         st.markdown('<div class="pillcaption">3.5 MM: 5 KG</div>', unsafe_allow_html=True)
