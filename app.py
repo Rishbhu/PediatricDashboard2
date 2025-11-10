@@ -48,44 +48,46 @@ html, body, .stApp, [data-testid="stAppViewContainer"], .main {
 .side p{ margin:2px 0 0; font-weight:800; font-size:13px; }
 
 /* Top band - more compact */
-.topband{ background: var(--band); border:1px solid var(--band-border); border-radius:10px; padding:10px 16px; margin-bottom:10px; position:relative; }
+.topband{ background: var(--band); border:1px solid var(--band-border); border-radius:8px; padding:8px 14px; margin-bottom:8px; position:relative; }
 .kvgrid{display:grid; grid-template-columns:repeat(7, 1fr); gap:12px; align-items:center;}
 .kv .label{ font-size:12px; font-weight:1000; letter-spacing:.12em; color: var(--heading); white-space:nowrap; }
 .kv .val{ margin-top:2px; font-size:15px; font-weight:900; }
 .baby{ width:38px;height:38px;border-radius:999px;border:2px solid var(--band-border); display:flex;align-items:center;justify-content:center;background:#0b1a30;font-size:18px; }
 
-/* Premature icon in top right */
-.premature-icon{ position:absolute; top:10px; right:16px; width:42px;height:42px;border-radius:999px;border:2px solid #F97362; display:flex;align-items:center;justify-content:center;background:#1a0f0f;font-size:20px; box-shadow:0 2px 8px rgba(249,115,98,0.3); }
+/* Premature icon in top right - conditional */
+.premature-icon{ position:absolute; top:8px; right:14px; width:40px;height:40px;border-radius:999px;border:2px solid #F97362; display:flex;align-items:center;justify-content:center;background:#1a0f0f;font-size:18px; box-shadow:0 2px 6px rgba(249,115,98,0.3); }
+.premature-icon.hidden{ display:none; }
 
-/* Risk section at top */
-.risk-header{ background:linear-gradient(135deg, #1a0f0f 0%, #2a1515 100%); border:2px solid #F97362; border-radius:12px; padding:12px 16px; margin-bottom:10px; box-shadow:0 4px 12px rgba(249,115,98,0.2); }
-.risk-title{ font-weight:1000; font-size:20px; letter-spacing:.1em; color: #F97362; text-align:center; margin-bottom:8px; }
-.risk-display{ display:flex; align-items:center; justify-content:space-around; gap:20px; }
-.risk-percentage{ font-size:48px; font-weight:1000; color: #F97362; text-align:center; line-height:1; }
-.risk-label{ font-size:14px; font-weight:800; color: var(--muted); text-align:center; margin-top:4px; letter-spacing:.1em; }
+/* Risk section at top - more compact */
+.risk-header{ background:linear-gradient(135deg, #1a0f0f 0%, #2a1515 100%); border:2px solid #F97362; border-radius:10px; padding:10px 14px; margin-bottom:8px; box-shadow:0 3px 10px rgba(249,115,98,0.2); }
+.risk-title{ font-weight:1000; font-size:18px; letter-spacing:.08em; color: #F97362; text-align:center; margin-bottom:6px; }
+.risk-display{ display:flex; align-items:center; justify-content:space-around; gap:16px; }
+.risk-percentage{ font-size:42px; font-weight:1000; color: #F97362; text-align:center; line-height:1; }
+.risk-label{ font-size:12px; font-weight:800; color: var(--muted); text-align:center; margin-top:3px; letter-spacing:.08em; }
+.risk-toggle-container{ display:flex; align-items:center; justify-content:center; gap:8px; margin-top:6px; }
 
 /* Headings - more compact */
-.h2{font-weight:1000; font-size:19px; letter-spacing:.08em; color: var(--heading); white-space:nowrap; margin:6px 0 4px;}
-.h3{font-weight:900;  font-size:16px; letter-spacing:.06em; color: var(--heading); white-space:nowrap; margin:4px 0 2px;}
+.h2{font-weight:1000; font-size:17px; letter-spacing:.08em; color: var(--heading); white-space:nowrap; margin:4px 0 3px;}
+.h3{font-weight:900;  font-size:15px; letter-spacing:.06em; color: var(--heading); white-space:nowrap; margin:3px 0 2px;}
 
 /* Cards - more compact */
 .card{background:var(--card); border:1px solid var(--border); border-radius:10px; padding:8px 12px;}
 .card + .card{margin-top:6px;}
 
 /* Flow (steps 1..6) - more compact */
-.flowgrid{display:grid; grid-template-columns: 1fr 32px 1fr 32px 1fr; row-gap:12px; column-gap:10px; align-items:center; margin-top:6px;}
-.stage{ background:#3A0E0E;border:1px solid #7A2E2E;border-radius:8px; padding:8px 10px;min-width:140px;text-align:center;font-weight:900; color:#FEE2E2; font-size:13px; transition:all .15s ease-in-out; }
+.flowgrid{display:grid; grid-template-columns: 1fr 28px 1fr 28px 1fr; row-gap:10px; column-gap:8px; align-items:center; margin-top:4px;}
+.stage{ background:#3A0E0E;border:1px solid #7A2E2E;border-radius:7px; padding:6px 8px;min-width:120px;text-align:center;font-weight:900; color:#FEE2E2; font-size:12px; transition:all .15s ease-in-out; }
 .stage.active{ box-shadow:0 0 0 3px var(--brand-coral) inset; transform:translateY(-2px); }
-.connector{height:3px;background:#7A2E2E;position:relative;border-radius:3px;}
-.connector:after{content:"";position:absolute;right:-5px;top:-3px;border-left:8px solid #7A2E2E;border-top:6px solid transparent;border-bottom:6px solid transparent;}
-.stepbadge{ width:24px;height:24px;border-radius:50%;border:2px dashed #CBD5E1;display:flex;align-items:center;justify-content:center; color:#E2E8F0;font-weight:900;background:#0B1426;margin:0 auto 4px; font-size:11px; }
+.connector{height:2px;background:#7A2E2E;position:relative;border-radius:2px;}
+.connector:after{content:"";position:absolute;right:-4px;top:-2px;border-left:6px solid #7A2E2E;border-top:4px solid transparent;border-bottom:4px solid transparent;}
+.stepbadge{ width:22px;height:22px;border-radius:50%;border:2px dashed #CBD5E1;display:flex;align-items:center;justify-content:center; color:#E2E8F0;font-weight:900;background:#0B1426;margin:0 auto 3px; font-size:10px; }
 
 /* Charts layout */
 .donutwrap{display:flex;align-items:center;justify-content:flex-end; width:100%;}
 .gaugewrap{display:flex;align-items:center;justify-content:center;}
 
-/* Compact gauge for top */
-.risk-gauge-wrap{display:flex;align-items:center;justify-content:center; padding:4px 0;}
+/* Compact gauge for top - smaller */
+.risk-gauge-wrap{display:flex;align-items:center;justify-content:center; padding:2px 0; transform:scale(0.85);}
 
 /* Pill - more compact */
 .pillbar{ height:36px;border-radius:999px;background:linear-gradient(90deg, #ef4444 0%, #fb923c 40%, #22c55e 100%); display:flex;align-items:center;justify-content:center;border:1px solid #1f2e4a; }
@@ -110,20 +112,20 @@ def arc_path(cx, cy, r, start_deg, end_deg):
 def semi_gauge_svg(pct:int=70, compact:bool=False)->str:
     pct = max(0, min(100, pct))
     if compact:
-        # Smaller gauge for top display
-        cx, cy, R, stroke = 100, 90, 70, 18
+        # Smaller gauge for top display - matching image
+        cx, cy, R, stroke = 100, 90, 65, 16
         filled = 180 * pct/100.0
         end_angle = 180 - filled
         base = arc_path(cx, cy, R, 180, 0)
         fill = arc_path(cx, cy, R, 180, end_angle)
         return f"""
-        <svg width="240" height="160" viewBox="0 0 240 160">
+        <svg width="220" height="150" viewBox="0 0 220 150">
           <g fill="none" stroke-linecap="round">
             <path d="{base}" stroke="#E9B98A" stroke-width="{stroke}" />
             <path d="{fill}" stroke="#F97362" stroke-width="{stroke}" />
           </g>
-          <circle cx="{cx}" cy="{cy}" r="{R-14}" fill="#0B1426"/>
-          <text x="{cx}" y="{cy-2}" text-anchor="middle" font-size="42" font-weight="1000" fill="#F8FAFC">{pct}%</text>
+          <circle cx="{cx}" cy="{cy}" r="{R-12}" fill="#0B1426"/>
+          <text x="{cx}" y="{cy-1}" text-anchor="middle" font-size="38" font-weight="1000" fill="#F8FAFC">{pct}%</text>
         </svg>
         """
     else:
@@ -190,6 +192,8 @@ defaults = dict(
     weight_current=5.0,
     gest_weeks=0,
     gest_days=0,
+    is_premature=False,  # Premature toggle
+    base_risk=70,  # Base risk percentage
 )
 for k,v in defaults.items():
     ss.setdefault(k, v)
@@ -200,7 +204,10 @@ with st.expander("⚙️  Controls", expanded=False):
     with tabs[0]:
         c1, c2, c3 = st.columns([0.33, 0.37, 0.30])
         with c1:
-            risk_pct = st.slider("Risk %", 0, 100, 70, 1)
+            ss.base_risk = st.slider("Base Risk %", 0, 100, int(ss.base_risk), 1, key="base_risk_slider")
+            ss.is_premature = st.checkbox("Premature", value=ss.is_premature, key="premature_check")
+            # Calculate risk: if premature, add 15% risk
+            risk_pct = min(100, int(ss.base_risk) + (15 if ss.is_premature else 0))
         with c2:
             st.caption("Genetic Abnormalities (counts)")
             d = st.slider("Downs", 0, 30, 12, 1)
@@ -261,6 +268,7 @@ with nav:
 
 with main:
     # ================= RISK SECTION AT TOP - MAIN ATTRACTION =================
+    premature_class = "hidden" if not ss.is_premature else ""
     st.markdown(f"""
     <div class="risk-header">
       <div class="risk-title">⚠️ PATIENT RISK ASSESSMENT ⚠️</div>
@@ -273,18 +281,24 @@ with main:
           {semi_gauge_svg(risk_pct, compact=True)}
         </div>
         <div>
-          <div class="risk-percentage" style="font-size:36px;">{risk_pct}</div>
+          <div class="risk-percentage" style="font-size:32px;">{risk_pct}</div>
           <div class="risk-label">/ 100</div>
         </div>
+      </div>
+      <div class="risk-toggle-container">
+        <label style="font-size:12px; font-weight:700; color:var(--muted);">Premature Status:</label>
+        <span style="font-size:13px; font-weight:900; color:{'#F97362' if ss.is_premature else '#C7D2FE'};">
+          {'✓ PREMATURE (+15% risk)' if ss.is_premature else 'Not Premature'}
+        </span>
       </div>
     </div>
     """, unsafe_allow_html=True)
 
-    # --- Top band (uses session values) with premature icon ---
+    # --- Top band (uses session values) with conditional premature icon ---
     gest_label = f"{int(ss.gest_weeks)} weeks {int(ss.gest_days)} days"
     st.markdown(f"""
     <div class="topband">
-      <div class="premature-icon">👶</div>
+      <div class="premature-icon {premature_class}">👶</div>
       <div class="kvgrid">
         <div class="kv"><div class="label">PATIENT&nbsp;ID</div><div class="val muted">{ss.patient_id}</div></div>
         <div class="kv"><div class="label">DOB</div><div class="val muted">{ss.dob.strftime("%m/%d/%Y")}</div></div>
@@ -304,10 +318,10 @@ with main:
         st.markdown('<div class="h2">FUNDAMENTAL&nbsp;DIAGNOSIS</div>', unsafe_allow_html=True)
         st.markdown('<div class="muted">short summary of diagnosis</div>', unsafe_allow_html=True)
 
-        st.markdown('<div class="h2" style="margin-top:10px;">SURGICAL&nbsp;PROCEDURE</div>', unsafe_allow_html=True)
+        st.markdown('<div class="h2" style="margin-top:8px;">SURGICAL&nbsp;PROCEDURE</div>', unsafe_allow_html=True)
         st.markdown(f"""
-        <div class="muted">Systemic-to-Pulmonary Shunt Placement</div>
-        <div style="margin-top:6px; font-size:13px;">
+        <div class="muted" style="font-size:13px;">Systemic-to-Pulmonary Shunt Placement</div>
+        <div style="margin-top:4px; font-size:12px; line-height:1.6;">
           <b>DATE OF SURG:</b> {date_of_surg.strftime("%m/%d/%Y")}<br>
           <b>AGE AT SURGERY:</b> {age_months} months {age_days} days<br>
           <b>WEIGHT AT SURGERY:</b> {weight_kg:.1f} kg<br>
@@ -321,7 +335,7 @@ with main:
         st.markdown('<div class="h2">GENETIC&nbsp;ABNORMALITIES</div>', unsafe_allow_html=True)
         st.markdown(bar_svg([d,t,g,w]), unsafe_allow_html=True)
 
-    st.markdown("<hr style='border:none;height:8px;background:transparent;'>", unsafe_allow_html=True)
+    st.markdown("<hr style='border:none;height:6px;background:transparent;'>", unsafe_allow_html=True)
 
     # Row 2: flow (two rows, steps 1..6) + donut aligned right + pill
     c4, c5 = st.columns([0.58, 0.42], gap="large")
@@ -346,7 +360,7 @@ with main:
         """, unsafe_allow_html=True)
         # Row 2: Steps 4–6
         st.markdown(f"""
-        <div class="flowgrid" style="margin-top:6px;">
+        <div class="flowgrid" style="margin-top:4px;">
           <div><div class="stepbadge">4</div><div class="stage">Chylothorax<br>Intervention</div></div>
           <div class="connector"></div>
           <div><div class="stepbadge">5</div><div class="stage">Stroke</div></div>
@@ -363,6 +377,6 @@ with main:
                     ("3.0 mm", shunt_pcts[3], "var(--donut4)")]
         st.markdown(f'<div class="donutwrap">{donut_svg(segments)}</div>', unsafe_allow_html=True)
 
-        st.markdown('<div class="h2" style="margin-top:8px; text-align:center;">SHUNT:WEIGHT</div>', unsafe_allow_html=True)
+        st.markdown('<div class="h2" style="margin-top:6px; text-align:center;">SHUNT:WEIGHT</div>', unsafe_allow_html=True)
         st.markdown('<div class="pillbar"><span class="chip">PATIENT XYZ</span></div>', unsafe_allow_html=True)
         st.markdown('<div class="pillcaption">3.5 MM: 5 KG</div>', unsafe_allow_html=True)
